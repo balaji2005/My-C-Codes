@@ -9,125 +9,132 @@ struct Process {
 	ProcessId id;
 };
 
-Process* recentProcess;
+Process* recentptr;
+Process recentProcess;
+recentProcess.id = NULL;
+recentProcess.nextProcess = NULL;
+recentProcess.previousProcess = NULL;
+recentptr = &recentProcess;
+
+
 // Process* headProcess;
 // headProcess.previousProcess = NULL; 
 
 class Scheduler {
 public:
-  /*
+  	/*
         adds process with id = pid to the end of the linked list
-  */
+  	*/
 	Process *add_process(ProcessId pid) {
 		// code to add_process goes here
 		Process process;
 		process.id = pid;
-		process.previousProcess = recentProcess;
+		process.previousProcess = recentptr;
 		process.nextProcess = NULL;
-		cout << recentProcess->id << endl;
-		cout << recentProcess->previousProcess<<endl;
-		cout << recentProcess->nextProcess<<endl;
-		if (recentProcess == NULL) {
+		// cout << recentProcess->id << endl;
+		// cout << recentProcess->previousProcess<<endl;
+		// cout << recentProcess->nextProcess<<endl;
+		if (recentptr == NULL) {
 			// headProcess.id = pid;
 			// headProcess.nextProcess = 
 			// cout << "Head Process: " <<headProcess->id<<endl;
 		} else {
-			recentProcess->nextProcess = &process;
+			recentptr->nextProcess = &process;
 		}
-		recentProcess = &process;
+		recentProcess = process;
 		cout << recentProcess->id << endl;
 		cout << recentProcess->previousProcess<<endl;
 		cout << recentProcess->nextProcess<<endl;
-		return recentProcess;
+		return recentptr;
 	}
     
-  /*
+  	/*
         deletes process with id == pid
-  */
+  	*/
     void delete_process(ProcessId pid) {
-		// code to delete_process goes here
-		// Process* tempP = new Process(*recentProcess);
-		Process* tempP;
-		Process temp;
-		temp.id = NULL;
-		temp.previousProcess = NULL;
-		temp.nextProcess = NULL;
-		tempP = &temp;
-		tempP->id = recentProcess->id;
-		tempP->previousProcess = recentProcess->previousProcess;
-		tempP->nextProcess = recentProcess->nextProcess;
-		while (tempP->id != pid) {
-			// *tempP = new Process(tempP->previousProcess);
-			tempP->id = (tempP->previousProcess)->id;
-			tempP->previousProcess = (tempP->previousProcess)->previousProcess;
-			tempP->nextProcess = (tempP->previousProcess)->nextProcess;
-		}
-		(tempP->previousProcess)->nextProcess = tempP->nextProcess;
-		(tempP->nextProcess)->previousProcess = tempP->previousProcess;
-  }
+		// // code to delete_process goes here
+		// // Process* tempP = new Process(*recentProcess);
+		// Process* tempP;
+		// Process temp;
+		// temp.id = NULL;
+		// temp.previousProcess = NULL;
+		// temp.nextProcess = NULL;
+		// tempP = &temp;
+		// tempP->id = recentptr->id;
+		// tempP->previousProcess = recentptr->previousProcess;
+		// tempP->nextProcess = recentptr->nextProcess;
+		// while (tempP->id != pid) {
+		// 	// *tempP = new Process(tempP->previousProcess);
+		// 	tempP->id = (tempP->previousProcess)->id;
+		// 	tempP->previousProcess = (tempP->previousProcess)->previousProcess;
+		// 	tempP->nextProcess = (tempP->previousProcess)->nextProcess;
+		// }
+		// (tempP->previousProcess)->nextProcess = tempP->nextProcess;
+		// (tempP->nextProcess)->previousProcess = tempP->previousProcess;
+  	}
 
   /*
         add a process with id == childId after process with id == parentId
   */
   	Process *fork(ProcessId process, ProcessId newId) {
-    	// code to fork process goes here
-		// Process* tempP = new Process(recentProcess);
-		Process* tempP;
-		Process temp;
-		temp.id = NULL;
-		temp.previousProcess = NULL;
-		temp.nextProcess = NULL;
-		tempP = &temp;
-		tempP->id = recentProcess->id;
-		tempP->previousProcess = recentProcess->previousProcess;
-		tempP->nextProcess = recentProcess->nextProcess;
-		while (tempP->id != process) {
-			// *tempP = new Process(*(tempP->previousProcess));
-			tempP->id = (tempP->previousProcess)->id;
-			tempP->previousProcess = (tempP->previousProcess)->previousProcess;
-			tempP->nextProcess = (tempP->previousProcess)->nextProcess;
-		}
-		Process newP;
-		newP.id = newId;
-		newP.nextProcess = tempP->nextProcess;
-		newP.previousProcess = tempP;
-		Process* newptr = &newP;
-		(tempP->nextProcess)->previousProcess = newptr;
-		tempP->nextProcess = newptr;
-		return newptr;
+    	// // code to fork process goes here
+		// // Process* tempP = new Process(recentProcess);
+		// Process* tempP;
+		// Process temp;
+		// temp.id = NULL;
+		// temp.previousProcess = NULL;
+		// temp.nextProcess = NULL;
+		// tempP = &temp;
+		// tempP->id = recentptr->id;
+		// tempP->previousProcess = recentptr->previousProcess;
+		// tempP->nextProcess = recentptr->nextProcess;
+		// while (tempP->id != process) {
+		// 	// *tempP = new Process(*(tempP->previousProcess));
+		// 	tempP->id = (tempP->previousProcess)->id;
+		// 	tempP->previousProcess = (tempP->previousProcess)->previousProcess;
+		// 	tempP->nextProcess = (tempP->previousProcess)->nextProcess;
+		// }
+		// Process newP;
+		// newP.id = newId;
+		// newP.nextProcess = tempP->nextProcess;
+		// newP.previousProcess = tempP;
+		// Process* newptr = &newP;
+		// (tempP->nextProcess)->previousProcess = newptr;
+		// tempP->nextProcess = newptr;
+		// return newptr;
 	}
 
 	void print_schedule() {
-		// code to print_schedule goes here
-		// Process* tempP = new Process(*headProcess);
-		cout << "Printing" << endl;
-		// cout << "Head Process Id: "<<headProcess->id<<endl;
-		Process* tempP;
-		Process temp;
-		temp.id = NULL;
-		temp.previousProcess = NULL;
-		temp.nextProcess = NULL;
-		tempP = &temp;
-		tempP->id = recentProcess->id;
-		tempP->previousProcess = recentProcess->previousProcess;
-		tempP->nextProcess = recentProcess->nextProcess;
-		cout << recentProcess->id<<endl;
-		cout << recentProcess->previousProcess<<endl;
-		cout << recentProcess->nextProcess<<endl;
-		vector<int> printv = {};
-		while (tempP -> previousProcess != NULL) {
-			printv.push_back(tempP->id);
-			cout << tempP -> id << endl;
-			// *tempP = new Process(*(tempP -> nextProcess);
-			tempP = tempP->nextProcess;
+		// // code to print_schedule goes here
+		// // Process* tempP = new Process(*headProcess);
+		// cout << "Printing" << endl;
+		// // cout << "Head Process Id: "<<headProcess->id<<endl;
+		// Process* tempP;
+		// Process temp;
+		// temp.id = NULL;
+		// temp.previousProcess = NULL;
+		// temp.nextProcess = NULL;
+		// tempP = &temp;
+		// tempP->id = recentptr->id;
+		// tempP->previousProcess = recentptr->previousProcess;
+		// tempP->nextProcess = recentptr->nextProcess;
+		// // cout << recentptr->id<<endl;
+		// // cout << recentptr->previousProcess<<endl;
+		// // cout << recentptr->nextProcess<<endl;
+		// vector<int> printv = {};
+		// while (tempP -> previousProcess != NULL) {
+		// 	printv.push_back(tempP->id);
+		// 	cout << tempP -> id << endl;
+		// 	// *tempP = new Process(*(tempP -> nextProcess);
+		// 	tempP = tempP->nextProcess;
+		// }
+		// printv.push_back(tempP->id);
+		// reverse(printv.begin(), printv.end());
+		// // cout << tempP -> id << endl;
+		// for (int ele : printv) {
+		// 	cout << ele << endl;
 		}
-		printv.push_back(tempP->id);
-		reverse(printv.begin(), printv.end());
-		// cout << tempP -> id << endl;
-		for (int ele : printv) {
-			cout << ele << endl;
-		}
-  }
+  	}
 };
 
 enum Operations {
