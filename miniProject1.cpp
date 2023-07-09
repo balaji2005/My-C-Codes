@@ -9,12 +9,7 @@ struct Process {
 	ProcessId id;
 };
 
-Process* recentptr;
-Process recentProcess;
-recentProcess.id = NULL;
-recentProcess.nextProcess = NULL;
-recentProcess.previousProcess = NULL;
-recentptr = &recentProcess;
+Process* recentptr = NULL;
 
 
 // Process* headProcess;
@@ -102,6 +97,7 @@ public:
 		// (tempP->nextProcess)->previousProcess = newptr;
 		// tempP->nextProcess = newptr;
 		// return newptr;
+		return NULL;
 	}
 
 	void print_schedule() {
